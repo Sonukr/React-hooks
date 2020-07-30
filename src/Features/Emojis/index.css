@@ -1,0 +1,32 @@
+.list{
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.list li{
+  flex-basis: 30%;
+  padding: 12px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #222222;
+  margin: 6px;
+  
+}
+
+.list li p{
+  font-size: 45px;
+}
+
+.header{
+  display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+a{
+  margin-right: 12px;
+  text-decoration: none;
+}
