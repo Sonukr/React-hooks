@@ -7,24 +7,23 @@ export default function useFetch(url, searchKey) {
   const [length, setLength] = useState(0);
   const [loading, setLoading] = useState(false)
   
-  async function getData() {
-    setLoading(true);
-    const response = await fetch(url);
-    const data = await response.json();
-    if(searchKey.length  > 2){
-      const results = data.filter(item => item.name.toLowerCase().includes(searchKey.toLowerCase()))
-      setData(results);
-      setLength(results.length)
-    }else{
-      setData(data);
-      setLength(data.length)
-    }
-    setLoading(false)
-  }
-
   useEffect(() => {
+    async function getData() {
+      setLoading(true);
+      const response = await fetch(url);
+      const data = await response.json();
+      if(searchKey.length  > 2){
+        const results = data.filter(item => item.name.toLowerCase().includes(searchKey.toLowerCase()))
+        setData(results);
+        setLength(results.length)
+      }else{
+        setData(data);
+        setLength(data.length)
+      }
+      setLoading(false)
+    }
     getData();
-  }, [searchKey]);
+  }, [searchKey, url]);
 
   return {data, length, loading};
 }
