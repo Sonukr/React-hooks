@@ -10,8 +10,10 @@ function DataLoader() {
   const [loading, setLoading] = useState(false)
   
   // useEffect Hook
+  // This hook will be re-render on change of searchTerm value and fetch new set of records.
   useEffect(() => {
     setLoading(true)
+    // Call api to fetch the data and set it to data using useState Hook
     fetch("https://unpkg.com/emoji.json@13.0.0/emoji.json")
       .then(response => response.json())
       .then(data => {
@@ -25,6 +27,11 @@ function DataLoader() {
         }
         setLoading(false)
       });
+      // Handle all unmount related things here
+      return () =>{
+        console.log('unmounting...');
+      }
+      
   },[searchTerm]); // This array parameter is used to call the hook when passed meter got changed
   
   // Set searchTerm value on change using setSearchTerm Hook

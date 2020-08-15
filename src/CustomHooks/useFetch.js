@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 
 export default function useFetch(url, searchKey) {
-  debugger
   const [data, setData] = useState([]);
   const [length, setLength] = useState(0);
   const [loading, setLoading] = useState(false)
