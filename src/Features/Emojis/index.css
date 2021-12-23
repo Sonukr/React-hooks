@@ -1,10 +1,10 @@
-.list{
+.list {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
 }
 
-.list li{
+.list li {
   flex-basis: 30%;
   padding: 12px;
   justify-content: center;
@@ -13,20 +13,19 @@
   flex-direction: column;
   border: 1px solid #222222;
   margin: 6px;
-  
 }
 
-.list li p{
+.list li p {
   font-size: 45px;
 }
 
-.header{
+.header {
   display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
-a{
+a {
   margin-right: 12px;
   text-decoration: none;
 }

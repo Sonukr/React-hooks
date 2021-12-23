@@ -1,6 +1,7 @@
 ## React Hooks
 
 ![](https://img.shields.io/github/repo-size/Sonukr/react-hooks)
+
 ## How to create and use react hooks.
 
 ##### useState Hook
@@ -34,7 +35,8 @@
       )
     }
     export default Login;
-  ````
+
+````
 </details>
 
 ---
@@ -42,153 +44,52 @@
 ##### useEffect Hook
 
 <details>
-  <summary>See example!</summary> 
+<summary>See example!</summary>
 
-  ``` JS
-  //dataLoader.js
+``` JS
+//dataLoader.js
 
-  import React, { useState, useEffect } from "react";
-  import Input from "Compoennts/Input";
-  import './index.css';
-
-  function DataLoader() {
-    // useState Hooks
-    const [data, setData] = useState([]);
-    const [count, setCount] = useState(0);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [loading, setLoading] = useState(false)
-    
-    // useEffect Hook
-    // This hook will be re-run on change of searchTerm value and fetch new set of records.
-    useEffect(() => {
-      setLoading(true)
-      // Call api to fetch the data and set it to data using useState Hook
-      fetch("https://unpkg.com/emoji.json@13.0.0/emoji.json")
-        .then(response => response.json())
-        .then(data => {
-          if(searchTerm){
-            const results = data.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()))
-            setData(results);
-            setCount(results.length)
-          }else{
-            setData(data)
-            setCount(data.length)
-          }
-          setLoading(false)
-        });
-        // Handle all unmount related things here
-        return () =>{
-          console.log('unmounting...');
-        }
-        
-    },[searchTerm]); // This array parameter is used to call the hook when passed meter got changed
-    
-    // Set searchTerm value on change using setSearchTerm Hook
-    const handleOnChnage =(e) =>{
-      setSearchTerm(e.target.value);
-    }
-
-    return (
-      <div>
-        <div className="header">
-          <div>
-            <a href="/">Home</a>
-            <a href="/emojis">Emojis</a>
-            <a href="/emojisWithCustomHooks">Emojis with custom hook</a>
-          </div>
-          <Input onChange={handleOnChnage} type="search" placeHolder="Search..."/>
-          <p>Total Results:  <b>{count}</b></p>
-        </div>
-        {loading ? <div className="App"> <p>Loading...</p> </div> : 
-            <ul className="list">
-              {data.map(el => (
-                <li key={el.codes}>
-                  <p>{el.char}</p>
-                  <span>{el.name}</span>
-                </li>
-              ))}
-            </ul>
-        }
-      </div>
-    );
-  }
-
-  export default DataLoader;
-
-  ```
-</details>
-
----
-##### Creating a custom Hook
-  <small>Here we are creating a custom hook called    <b>useFetch</b> using <b>useEffect hook.</b>
-  </small>
-  
-<details>
-  <summary>See useFetch custom hook!</summary>
-  
----  
-```JS
-// useFetch.js
-
-import { useState, useEffect } from "react";
-
-export default function useFetch(url, searchKey) {
-  const [data, setData] = useState([]);
-  const [length, setLength] = useState(0);
-  const [loading, setLoading] = useState(false)
-  
-  useEffect(() => {
-    async function getData() {
-      setLoading(true);
-      const response = await fetch(url);
-      const data = await response.json();
-      if(searchKey.length  > 2){
-        const results = data.filter(item => item.name.toLowerCase().includes(searchKey.toLowerCase()))
-        setData(results);
-        setLength(results.length)
-      }else{
-        setData(data);
-        setLength(data.length)
-      }
-      setLoading(false)
-    }
-    getData();
-  }, [searchKey, url]);
-
-  return {data, length, loading};
-}
-
-```
----
-
-</details>  
-
----
-<small>Now we can use this <b>useFetch</b> Custom hook to create a dataLoder component.</small>
-
-<details>
-  <summary>See DataLoaderWithCustomHooks Example!</summary>
-
-```JS
-// DataLoaderWithCustomHooks.js
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "Compoennts/Input";
 import './index.css';
-import useFetch from 'CustomHooks/useFetch';
 
-function DataLoaderWithCustomHooks() {
-  
-  // useState Hook
+function DataLoader() {
+  // useState Hooks
+  const [data, setData] = useState([]);
+  const [count, setCount] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  
+  const [loading, setLoading] = useState(false)
+
+  // useEffect Hook
+  // This hook will be re-run on change of searchTerm value and fetch new set of records.
+  useEffect(() => {
+    setLoading(true)
+    // Call api to fetch the data and set it to data using useState Hook
+    fetch("https://unpkg.com/emoji.json@13.0.0/emoji.json")
+      .then(response => response.json())
+      .then(data => {
+        if(searchTerm){
+          const results = data.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()))
+          setData(results);
+          setCount(results.length)
+        }else{
+          setData(data)
+          setCount(data.length)
+        }
+        setLoading(false)
+      });
+      // Handle all unmount related things here
+      return () =>{
+        console.log('unmounting...');
+      }
+
+  },[searchTerm]); // This array parameter is used to call the hook when passed meter got changed
+
   // Set searchTerm value on change using setSearchTerm Hook
   const handleOnChnage =(e) =>{
     setSearchTerm(e.target.value);
   }
-  //  Call this custom hook  useFetch to fetch all/filtered data and use it by passing all required custom hook parameters.
-  const {data, length, loading} = useFetch("https://unpkg.com/emoji.json@13.0.0/emoji.json", searchTerm);
-  
+
   return (
     <div>
       <div className="header">
@@ -198,9 +99,9 @@ function DataLoaderWithCustomHooks() {
           <a href="/emojisWithCustomHooks">Emojis with custom hook</a>
         </div>
         <Input onChange={handleOnChnage} type="search" placeHolder="Search..."/>
-        <p>Total Results:  <b>{length}</b></p>
+        <p>Total Results:  <b>{count}</b></p>
       </div>
-      {loading ? <div className="App"> <p>Loading...</p> </div> : 
+      {loading ? <div className="App"> <p>Loading...</p> </div> :
           <ul className="list">
             {data.map(el => (
               <li key={el.codes}>
@@ -214,6 +115,107 @@ function DataLoaderWithCustomHooks() {
   );
 }
 
+export default DataLoader;
+
+```
+</details>
+
+---
+##### Creating a custom Hook
+<small>Here we are creating a custom hook called    <b>useFetch</b> using <b>useEffect hook.</b>
+</small>
+
+<details>
+<summary>See useFetch custom hook!</summary>
+
+---
+```JS
+// useFetch.js
+
+import { useState, useEffect } from "react";
+
+export default function useFetch(url, searchKey) {
+const [data, setData] = useState([]);
+const [length, setLength] = useState(0);
+const [loading, setLoading] = useState(false)
+
+useEffect(() => {
+  async function getData() {
+    setLoading(true);
+    const response = await fetch(url);
+    const data = await response.json();
+    if(searchKey.length  > 2){
+      const results = data.filter(item => item.name.toLowerCase().includes(searchKey.toLowerCase()))
+      setData(results);
+      setLength(results.length)
+    }else{
+      setData(data);
+      setLength(data.length)
+    }
+    setLoading(false)
+  }
+  getData();
+}, [searchKey, url]);
+
+return {data, length, loading};
+}
+
+```
+---
+
+</details>
+
+---
+<small>Now we can use this <b>useFetch</b> Custom hook to create a dataLoder component.</small>
+
+<details>
+<summary>See DataLoaderWithCustomHooks Example!</summary>
+
+```JS
+// DataLoaderWithCustomHooks.js
+
+import React, { useState } from "react";
+import Input from "Compoennts/Input";
+import './index.css';
+import useFetch from 'CustomHooks/useFetch';
+
+function DataLoaderWithCustomHooks() {
+
+// useState Hook
+const [searchTerm, setSearchTerm] = useState("");
+
+// Set searchTerm value on change using setSearchTerm Hook
+const handleOnChnage =(e) =>{
+  setSearchTerm(e.target.value);
+}
+//  Call this custom hook  useFetch to fetch all/filtered data and use it by passing all required custom hook parameters.
+const {data, length, loading} = useFetch("https://unpkg.com/emoji.json@13.0.0/emoji.json", searchTerm);
+
+return (
+  <div>
+    <div className="header">
+      <div>
+        <a href="/">Home</a>
+        <a href="/emojis">Emojis</a>
+        <a href="/emojisWithCustomHooks">Emojis with custom hook</a>
+      </div>
+      <Input onChange={handleOnChnage} type="search" placeHolder="Search..."/>
+      <p>Total Results:  <b>{length}</b></p>
+    </div>
+    {loading ? <div className="App"> <p>Loading...</p> </div> :
+        <ul className="list">
+          {data.map(el => (
+            <li key={el.codes}>
+              <p>{el.char}</p>
+              <span>{el.name}</span>
+            </li>
+          ))}
+        </ul>
+    }
+  </div>
+);
+}
+
 export default DataLoaderWithCustomHooks;
 
 ```
@@ -222,3 +224,4 @@ export default DataLoaderWithCustomHooks;
 ---
 
 ##### useCallback Hook
+````
